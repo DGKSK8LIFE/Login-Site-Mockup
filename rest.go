@@ -30,7 +30,9 @@ func main() {
 					panic(err)
 				} else {
 					if r.FormValue("username") == username && r.FormValue("password") == password {
-						fmt.Fprint(w, "welcome home blyat!")
+						fmt.Fprint(w, "<h1 style='text-align: center'>welcome home blyat!</h1>")
+					} else {
+						fmt.Fprintf(w, "<h1 style='text-align: center'>GTFO!</h1>")
 					}
 				}
 
