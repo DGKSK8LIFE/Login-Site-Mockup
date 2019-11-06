@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"html/template"
 	"net/http"
 
@@ -24,11 +23,20 @@ func main() {
 		if len(username) > 0 && len(password) > 0 {
 			rows, _ := db.Query("SELECT * FROM LOGINS;")
 			for rows.Next() {
-				rows.Scan(&username, &password)
-				fmt.Printf("%s: %s\n", username, password)
+				err := rows.Scan(&username, &password)
+				if err != nil {
+					panic(err)
+				} else {
+
+				}
+
 			}
 		}
 		html.ExecuteTemplate(w, "main.html", nil)
 	})
 	http.ListenAndServe(":8000", nil)
+}
+
+func isInDb(row string, db *sql) bool {
+
 }
