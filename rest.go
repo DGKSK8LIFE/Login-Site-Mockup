@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"html/template"
 	"net/http"
 
@@ -20,6 +21,7 @@ func main() {
 		username := r.FormValue("username")
 		password := r.FormValue("password")
 		defer db.Close()
+		html.ExecuteTemplate(w, "main.html", nil)
 		if len(username) > 0 && len(password) > 0 {
 			rows, _ := db.Query("SELECT * FROM LOGINS;")
 			for rows.Next() {
@@ -27,16 +29,14 @@ func main() {
 				if err != nil {
 					panic(err)
 				} else {
-
+					if r.FormValue("username") == username && r.FormValue("password") == password {
+						fmt.Fprint(w, "welcome home blyat!")
+					}
 				}
 
 			}
 		}
-		html.ExecuteTemplate(w, "main.html", nil)
+
 	})
 	http.ListenAndServe(":8000", nil)
-}
-
-func isInDb(row string, db *sql) bool {
-
 }
