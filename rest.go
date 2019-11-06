@@ -18,27 +18,27 @@ func init() {
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		db, _ := sql.Open("sqlite3", "./stored_logins.sqlite")
-		username := r.FormValue("username")
-		password := r.FormValue("password")
+		usernameUserSide := r.FormValue("username")
+		passwordUserSide := r.FormValue("password")
 		defer db.Close()
 		html.ExecuteTemplate(w, "main.html", nil)
-		if len(username) > 0 && len(password) > 0 {
+		if len(usernameUserSide) > 0 && len(passwordUserSide) > 0 {
 			rows, _ := db.Query("SELECT * FROM LOGINS;")
+			var username string
+			var password string
 			for rows.Next() {
 				err := rows.Scan(&username, &password)
 				if err != nil {
 					panic(err)
 				} else {
-					if r.FormValue("username") == username && r.FormValue("password") == password {
-						fmt.Fprint(w, "<h1 style='text-align: center'>welcome home blyat!</h1>")
-					} else {
-						fmt.Fprintf(w, "<h1 style='text-align: center'>GTFO!</h1>")
+					if usernameUserSide == username && passwordUserSide == password {
+						fmt.Fprintln(w, "<h1 style='text-align: center;'>welcome back, cyka blyat!</h1>")
+						break
 					}
-				}
 
+				}
 			}
 		}
-
 	})
 	http.ListenAndServe(":8000", nil)
 }
