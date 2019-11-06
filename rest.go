@@ -13,8 +13,8 @@ func init() {
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		// username := r.FormValue("username")
-		// password := r.FormValue("password")
+		username = r.FormValue("username")
+		password := r.FormValue("password")
 		html.ExecuteTemplate(w, "main.html", nil)
 	})
 	http.ListenAndServe(":8000", nil)
