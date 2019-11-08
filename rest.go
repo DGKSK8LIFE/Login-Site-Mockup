@@ -35,9 +35,9 @@ func main() {
 						fmt.Fprintln(w, "<h1 style='text-align: center;'>welcome back, cyka blyat!</h1>")
 						break
 					}
-
 				}
 			}
+
 		}
 	})
 	http.ListenAndServe(":8000", nil)
