@@ -65,9 +65,9 @@ func showCreateSite(w http.ResponseWriter, r *http.Request) {
 	if len(usernameClientSide) > 0 && len(passwordClientSide) > 0 {
 		rows, _ := db.Query("SELECT * FROM LOGINS;")
 		var usernameOne string
-		var passwordTwo string
+		var passwordOne string
 		for rows.Next() {
-			err := rows.Scan(&usernameOne, &passwordTwo)
+			err := rows.Scan(&usernameOne, &passwordOne)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -75,6 +75,10 @@ func showCreateSite(w http.ResponseWriter, r *http.Request) {
 			if usernameClientSide == usernameOne {
 				fmt.Fprintln(w, "<h1 style='text-align: center;'>Account already exists! Choose a different username!</h1>")
 				break
+			} else {
+				var query = fmt.Sprintf("INSERT INTO LOGINS (username, password) VALUES (%s, %s);", usernameOne, passwordOne)
+				db.QueryRow(query)
+
 			}
 		}
 	}
