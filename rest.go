@@ -39,11 +39,9 @@ func main() {
 				if err != nil {
 					log.Fatal(err)
 				}
-
 				if usernameUserSide == username && passwordUserSide == password {
 					fmt.Fprintln(w, "<h1 style='text-align: center;'>welcome back, cyka blyat!</h1>")
 					break
-
 				}
 			}
 		}
@@ -76,10 +74,8 @@ func showCreateSite(w http.ResponseWriter, r *http.Request) {
 				fmt.Fprintln(w, "<h1 style='text-align: center;'>Account already exists! Choose a different username!</h1>")
 				break
 			} else {
-				query := fmt.Sprintf("INSERT INTO LOGINS (username, password) VALUES (%s, %s);", usernameOne, passwordOne)
-				prepQ := db.Prepare(query)
+				var query = fmt.Sprintf("INSERT INTO LOGINS (username, password) VALUES (%s, %s);", usernameOne, passwordOne)
 				db.Query(query)
-
 			}
 		}
 	}
