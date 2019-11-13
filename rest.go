@@ -45,10 +45,10 @@ func main() {
 		}
 	})
 
-	go http.HandleFunc("/create.html/", showCreateSite)
+	http.HandleFunc("/create.html/", showCreateSite)
 	http.ListenAndServe(":8000", nil)
 }
 
 func showCreateSite(w http.ResponseWriter, r *http.Request) {
-	html.ExecuteTemplate(w, "create.html", nil)
+	htmlTwo.Execute(w, "create.html")
 }
