@@ -76,7 +76,8 @@ func showCreateSite(w http.ResponseWriter, r *http.Request) {
 				fmt.Fprintln(w, "<h1 style='text-align: center;'>Account already exists! Choose a different username!</h1>")
 				break
 			} else {
-				var query = fmt.Sprintf("INSERT INTO LOGINS (username, password) VALUES (%s, %s);", usernameOne, passwordOne)
+				query := fmt.Sprintf("INSERT INTO LOGINS (username, password) VALUES (%s, %s);", usernameOne, passwordOne)
+				prepQ := db.Prepare(query)
 				db.Query(query)
 
 			}
