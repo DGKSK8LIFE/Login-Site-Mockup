@@ -45,7 +45,7 @@ func main() {
 		}
 	})
 
-	http.HandleFunc("/create.html/", showCreateSite)
+	go http.HandleFunc("/create.html/", showCreateSite)
 	http.ListenAndServe(":8000", nil)
 }
 
