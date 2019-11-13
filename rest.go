@@ -71,7 +71,7 @@ func showCreateSite(w http.ResponseWriter, r *http.Request) {
 				log.Fatal(err)
 			}
 
-			if usernameOne == usernameOne {
+			if usernameClientSide == usernameOne {
 				fmt.Fprintln(w, "<h1 style='text-align: center;'>Account already exists! Choose a different username!</h1>")
 				break
 			} 
