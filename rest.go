@@ -38,12 +38,12 @@ func main() {
 				err := rows.Scan(&username, &password)
 				if err != nil {
 					log.Fatal(err)
-				} 
-					
+				}
+
 				if usernameUserSide == username && passwordUserSide == password {
 					fmt.Fprintln(w, "<h1 style='text-align: center;'>welcome back, cyka blyat!</h1>")
 					break
-					
+
 				}
 			}
 		}
@@ -65,8 +65,9 @@ func showCreateSite(w http.ResponseWriter, r *http.Request) {
 	if len(usernameClientSide) > 0 && len(passwordClientSide) > 0 {
 		rows, _ := db.Query("SELECT * FROM LOGINS;")
 		var usernameOne string
+		var passwordTwo string
 		for rows.Next() {
-			err := rows.Scan(&usernameOne)
+			err := rows.Scan(&usernameOne, &passwordTwo)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -74,9 +75,7 @@ func showCreateSite(w http.ResponseWriter, r *http.Request) {
 			if usernameClientSide == usernameOne {
 				fmt.Fprintln(w, "<h1 style='text-align: center;'>Account already exists! Choose a different username!</h1>")
 				break
-			} 
+			}
 		}
 	}
-}
-
 }
