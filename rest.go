@@ -9,10 +9,14 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var html *template.Template
+var (
+	html    *template.Template
+	htmlTwo *template.Template
+)
 
 func init() {
 	html = template.Must(template.ParseGlob("main.html"))
+	htmlTwo = template.Must(template.ParseFiles("create.html"))
 }
 
 func main() {
@@ -40,5 +44,11 @@ func main() {
 
 		}
 	})
+
+	http.HandleFunc("/create.html/", showCreateSite)
 	http.ListenAndServe(":8000", nil)
+}
+
+func showCreateSite(w http.ResponseWriter, r *http.Request) {
+	html.ExecuteTemplate(w, "create.html", nil)
 }
