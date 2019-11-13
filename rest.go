@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -21,7 +22,10 @@ func init() {
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		db, _ := sql.Open("sqlite3", "./stored_logins.sqlite")
+		db, err := sql.Open("sqlite3", "./stored_logins.sqlite")
+		if err != nil {
+			log.Fatal(err)
+		}
 		usernameUserSide := r.FormValue("username")
 		passwordUserSide := r.FormValue("password")
 		defer db.Close()
@@ -33,15 +37,15 @@ func main() {
 			for rows.Next() {
 				err := rows.Scan(&username, &password)
 				if err != nil {
-					panic(err)
-				} else {
-					if usernameUserSide == username && passwordUserSide == password {
-						fmt.Fprintln(w, "<h1 style='text-align: center;'>welcome back, cyka blyat!</h1>")
-						break
-					}
+					log.Fatal(err)
+				} 
+					
+				if usernameUserSide == username && passwordUserSide == password {
+					fmt.Fprintln(w, "<h1 style='text-align: center;'>welcome back, cyka blyat!</h1>")
+					break
+					
 				}
 			}
-
 		}
 	})
 
@@ -50,5 +54,29 @@ func main() {
 }
 
 func showCreateSite(w http.ResponseWriter, r *http.Request) {
+	db, err := sql.Open("sqlite3", "./stored_logins.sqlite")
+	if err != nil {
+		log.Fatal(err)
+	}
+	usernameClientSide := r.FormValue("username")
+	passwordClientSide := r.FormValue("password")
+	defer db.Close()
 	htmlTwo.Execute(w, "create.html")
+	if len(usernameClientSide) > 0 && len(passwordClientSide) > 0 {
+		rows, _ := db.Query("SELECT * FROM LOGINS;")
+		var usernameOne string
+		for rows.Next() {
+			err := rows.Scan(&usernameOne)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if usernameOne == usernameOne {
+				fmt.Fprintln(w, "<h1 style='text-align: center;'>Account already exists! Choose a different username!</h1>")
+				break
+			} 
+		}
+	}
+}
+
 }
