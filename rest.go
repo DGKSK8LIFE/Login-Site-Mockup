@@ -37,7 +37,7 @@ func main() {
 			for rows.Next() {
 				err := rows.Scan(&username, &password)
 				if err != nil {
-					panic(err)
+					log.Fatal(err)
 				}
 				if usernameUserSide == username && passwordUserSide == password {
 					fmt.Fprintln(w, "<h1 style='text-align: center;'>welcome back, cyka blyat!</h1>")
@@ -76,6 +76,7 @@ func showCreateSite(w http.ResponseWriter, r *http.Request) {
 			} else {
 				var query = fmt.Sprintf("INSERT INTO LOGINS (username, password) VALUES (%s, %s);", usernameOne, passwordOne)
 				db.Query(query)
+				break
 			}
 		}
 	}
