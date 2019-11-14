@@ -76,6 +76,7 @@ func showCreateSite(w http.ResponseWriter, r *http.Request) {
 			} else {
 				var query = fmt.Sprintf("INSERT INTO LOGINS (username, password) VALUES (%s, %s);", usernameOne, passwordOne)
 				db.Query(query)
+				break
 			}
 
 		}
