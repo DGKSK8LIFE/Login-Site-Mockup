@@ -56,10 +56,10 @@ func showCreateSite(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.Close()
 	usernameClientSide := r.FormValue("username")
 	passwordClientSide := r.FormValue("password")
 
-	defer db.Close()
 	htmlTwo.Execute(w, "create.html")
 
 	if len(usernameClientSide) > 0 && len(passwordClientSide) > 0 {
@@ -69,5 +69,6 @@ func showCreateSite(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}
 		prepQ.Exec()
+		fmt.Fprintf(w, "<h1 style='text-align: center;'>You made an account!</h1>")
 	}
 }
