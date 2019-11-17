@@ -42,7 +42,7 @@ func showLoginPage(w http.ResponseWriter, r *http.Request) {
 		for rows.Next() {
 			err := rows.Scan(&username, &password)
 			if err != nil {
-				panic(err)
+				log.Fatal(err)
 			}
 			if usernameUserSide == username && passwordUserSide == password {
 				fmt.Fprintln(w, "<h1 style='text-align: center;'>welcome back, cyka blyat!</h1>")
