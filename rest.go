@@ -33,7 +33,8 @@ func showLoginPage(w http.ResponseWriter, r *http.Request) {
 	}
 	usernameUserSide := r.FormValue("username")
 	passwordUserSide := r.FormValue("password")
-	// defer db.Close()
+	defer db.Close()
+	defer db.Ping()
 	html.ExecuteTemplate(w, "main.html", nil)
 	if len(usernameUserSide) > 0 && len(passwordUserSide) > 0 {
 		rows, _ := db.Query("SELECT * FROM LOGINS;")
@@ -60,7 +61,8 @@ func showCreateSite(w http.ResponseWriter, r *http.Request) {
 
 	usernameClientSide := r.FormValue("username")
 	passwordClientSide := r.FormValue("password")
-	// defer db.Close()
+	defer db.Close()
+	defer db.Ping()
 	htmlTwo.Execute(w, "create.html")
 
 	if len(usernameClientSide) > 0 && len(passwordClientSide) > 0 {
