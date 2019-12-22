@@ -44,7 +44,7 @@ func userAuth(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "<h1 style='text-align: center;'>Welcome!</h1>")
 	} else if row == false {
 		// deny access
-		loginSite.ExecuteTemplate(w, "login.html", nil)
+		loginSite.ExecuteTemplate(w, "main.html", nil)
 	}
 }
 
@@ -58,13 +58,14 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	query := fmt.Sprintf("INSERT INTO logins (username, password) VALUES ('%s', '%s');", username, password)
 	db.Exec(query)
+	loginSite.ExecuteTemplate(w, "main.html", nil)
 }
 
 func rowExists(username, password string, db *sql.DB) bool {
 	var exists bool
-	query := fmt.Sprintf("SELECT * FROM ACCOUNTS WHERE username='%s' AND password='%s'", username, password)
+	query := fmt.Sprintf("SELECT * FROM logins WHERE username='%s' AND password='%s'", username, password)
 	if err := db.QueryRow(query).Scan(&username, &password); err != nil && err != sql.ErrNoRows {
-		log.Fatal("database error, we're fucked")
+		log.Fatal(err)
 	} else if err == sql.ErrNoRows {
 		exists = false
 	} else {
