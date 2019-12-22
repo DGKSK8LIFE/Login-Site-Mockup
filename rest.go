@@ -16,7 +16,7 @@ var (
 )
 
 func init() {
-	loginSite = template.Must(template.ParseGlob("login.html"))
+	loginSite = template.Must(template.ParseGlob("main.html"))
 	createSite = template.Must(template.ParseGlob("create.html"))
 }
 
